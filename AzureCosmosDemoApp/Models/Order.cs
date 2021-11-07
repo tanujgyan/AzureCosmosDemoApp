@@ -42,5 +42,7 @@ namespace AzureCosmosDemoApp.Models
         public int? LVSStatusId { get; set; }
         [JsonProperty(PropertyName = "contracttype2id")]
         public long? ContractType2Id { get; set; }
+        [JsonProperty(PropertyName = "SubmissionDate")]
+        public DateTime SubmissionDate { get; set; }
     }
 }

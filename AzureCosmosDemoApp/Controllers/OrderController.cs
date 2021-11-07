@@ -40,6 +40,23 @@ namespace AzureCosmosDemoApp.Controllers
             return chartModels;
         }
         [HttpGet]
+        public async Task<IEnumerable<int>> GetOrderTypeChartForPie()
+        {
+            var orders = await _orderService.GetOrdersAsync("SELECT * FROM c");
+            var registration = orders.Count(x => x.OrderTypeId == 1);
+            var search = orders.Count(x => x.OrderTypeId == 2);
+            var change = orders.Count(x => x.OrderTypeId == 3);
+            var renewal = orders.Count(x => x.OrderTypeId == 4);
+            var discharge = orders.Count(x => x.OrderTypeId == 5);
+            List<int> data = new List<int>();
+            data.Add(registration);
+            data.Add(search);
+            data.Add(change);
+            data.Add(renewal);
+            data.Add(discharge);
+            return data;
+        }
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<ChartModel>>> GetOrderStatusChart()
         {
            var orders= await _orderService.GetOrdersAsync("SELECT * FROM c");
@@ -52,6 +69,28 @@ namespace AzureCosmosDemoApp.Controllers
             chartModels.Add(new ChartModel { Data = new List<int> { inprogress }, Label = "In-Progress" });
             chartModels.Add(new ChartModel { Data = new List<int> { completed }, Label = "Completed" });
             chartModels.Add(new ChartModel { Data = new List<int> { cancelled }, Label = "Cancelled" });
+            return chartModels;
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ChartModel>>> GetRegistrationChartByDate()
+        {
+            var orders = await _orderService.GetOrdersAsync("SELECT * FROM c");
+            var regJan = orders.Count(x => x.OrderTypeId == 1 && x.SubmissionDate.Month==1);
+            var regFeb = orders.Count(x => x.OrderTypeId == 1 && x.SubmissionDate.Month == 2);
+            var regMar = orders.Count(x => x.OrderTypeId == 1 && x.SubmissionDate.Month == 3);
+            var regApr = orders.Count(x => x.OrderTypeId == 1 && x.SubmissionDate.Month == 4);
+            var regMay = orders.Count(x => x.OrderTypeId == 1 && x.SubmissionDate.Month == 5);
+            var regJun = orders.Count(x => x.OrderTypeId == 1 && x.SubmissionDate.Month == 6);
+            var regJul = orders.Count(x => x.OrderTypeId == 1 && x.SubmissionDate.Month == 7);
+            var regAug = orders.Count(x => x.OrderTypeId == 1 && x.SubmissionDate.Month == 8);
+            var regSep = orders.Count(x => x.OrderTypeId == 1 && x.SubmissionDate.Month == 9);
+            var regOct = orders.Count(x => x.OrderTypeId == 1 && x.SubmissionDate.Month == 10);
+            var regNov = orders.Count(x => x.OrderTypeId == 1 && x.SubmissionDate.Month == 11);
+            var regDec = orders.Count(x => x.OrderTypeId == 1 && x.SubmissionDate.Month == 12);
+           
+            List<ChartModel> chartModels = new List<ChartModel>();
+             chartModels.Add(new ChartModel { Data = new List<int> { regJan, regFeb,regMar,regApr,regMay,regJun,regJul,regAug,regSep,regOct,regNov,regDec }, Label = "Registration" });
+          
             return chartModels;
         }
         [HttpPost]
